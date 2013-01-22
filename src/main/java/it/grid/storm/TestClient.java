@@ -2,6 +2,7 @@ package it.grid.storm;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -23,6 +24,9 @@ public class TestClient {
 	private static int GRIDHTTPS_HTTP_PORT = 8085;
 	private static String TEST_DIRECTORY = "/testdir2";
 	
+	private static String ALLPROP = "<?xml version=\"1.0\" encoding=\"utf-8\"?><propfind xmlns=\"DAV:\"><allprop/></propfind>";
+	private static String FILECONTENT = "Contenuto del file di prova.";
+	
 	/**
 	 * @param args
 	 */
@@ -33,13 +37,30 @@ public class TestClient {
 		System.out.println();
 		System.out.println("Testing gridhttps-server: " + GRIDHTTPS_HOSTNAME);
 		System.out.println();
-		test(client, "http", GRIDHTTPS_HOSTNAME, GRIDHTTPS_HTTP_PORT, "free");
+		try {
+			test(client, "http", GRIDHTTPS_HOSTNAME, GRIDHTTPS_HTTP_PORT, "free");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	private static void test(HttpClient client, String protocol, String host, int port, String storagearea) {
+	private static void test(HttpClient client, String protocol, String host, int port, String storagearea) throws IOException {
 		final String baseUrl = protocol + "://" + host + ":" + port + "/" + storagearea;
-		File filePathToUpload1 = new File("classes/fileToUpload.txt");
-		File allprop = new File("classes/allprops.xml");
+		
+		File filePathToUpload1 = new File("/tmp/fileToUpload.txt");
+		filePathToUpload1.createNewFile();
+		FileOutputStream writer = new FileOutputStream(filePathToUpload1);
+		writer.write(FILECONTENT.getBytes());
+		writer.flush();
+		writer.close();
+		
+		File allprop = new File("/tmp/allprops.xml");
+		allprop.createNewFile();
+		writer = new FileOutputStream(allprop);
+		writer.write(ALLPROP.getBytes());
+		writer.flush();
+		writer.close();
 		
 		//OPTIONS
 		options(client, baseUrl, "");
