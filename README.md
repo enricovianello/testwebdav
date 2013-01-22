@@ -5,8 +5,8 @@ uses jackrabbit libraries to test a webdav server with anonymous authentication;
 
 TO USE:
 
-cd <project-dir>
+cd [project-dir]
 
 mvn clean install
 
-java -jar target/testclient.jar <gridhttps-hostname>
+java -jar target/testclient.jar [gridhttps-hostname]
