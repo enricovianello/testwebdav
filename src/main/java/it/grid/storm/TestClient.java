@@ -119,6 +119,9 @@ public class TestClient {
 		//DELETE dir
 		delete(client, baseUrl, TEST_DIRECTORY);
 		System.out.println("");
+	
+		allprop.delete();
+		filePathToUpload1.delete();
 	}
 	
 	private static void printSuccess(boolean expression) {
